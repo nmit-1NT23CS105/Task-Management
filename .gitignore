@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# FastAPI environment
+backend/.env
+
+# Node / React
+node_modules/
+dist/
+frontend/.env
+
+# Editors
+.vscode/
+.idea/
+.agents/
+.codex/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.err
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
