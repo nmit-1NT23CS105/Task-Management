@@ -22,12 +22,12 @@ services:
           property: url
 
   # React Frontend (Vite) Static Site
-  - type: static
+  - type: web
     name: task-management-frontend
-    env: static
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && VITE_API_URL=${BACKEND_URL}/api npm run build
-    publishPath: dist
+    staticPublishPath: ./dist
     envVars:
       - key: BACKEND_URL
         fromService:
