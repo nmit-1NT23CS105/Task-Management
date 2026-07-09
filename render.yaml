@@ -1,0 +1,36 @@
+services:
+  # FastAPI Backend Service
+  - type: web
+    name: task-management-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false # Set by the user to their managed MySQL database URL (e.g. Aiven, Clever Cloud, etc.)
+      - key: JWT_SECRET_KEY
+        generateValue: true # Render will automatically generate a secure random key
+      - key: CREATE_TABLES_ON_STARTUP
+        value: "true" # Enables automatic schema tables creation on startup
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: FRONTEND_ORIGIN
+        fromService:
+          type: web
+          name: task-management-frontend
+          property: url
+
+  # React Frontend (Vite) Static Site
+  - type: static
+    name: task-management-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && VITE_API_URL=${BACKEND_URL}/api npm run build
+    publishPath: dist
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: task-management-backend
+          property: url
