@@ -16,21 +16,15 @@ services:
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: "1440"
       - key: FRONTEND_ORIGIN
-        fromService:
-          type: web
-          name: task-management-frontend
-          property: url
+        value: https://task-management-frontend.onrender.com # Update this if your frontend service name is different
 
   # React Frontend (Vite) Static Site
   - type: web
     name: task-management-frontend
     runtime: static
     rootDir: frontend
-    buildCommand: npm install && VITE_API_URL=${BACKEND_URL}/api npm run build
+    buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     envVars:
-      - key: BACKEND_URL
-        fromService:
-          type: web
-          name: task-management-backend
-          property: url
+      - key: VITE_API_URL
+        value: https://task-management-backend.onrender.com/api # Update this if your backend service name is different
